@@ -10,7 +10,8 @@ import UIKit
 
 class MainTableViewController: UITableViewController {
     
-    var restrantNames = ["James", "Карбонара", "МыЕсть", "Сойка", "Планета Суши", "Гастроли", "А ты где?", "Рататуй", "Троекуров", "Вертикаль", "Бюро Находок"]
+    
+    let places = Place.getPlace()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,21 +24,25 @@ class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return restrantNames.count
+        return places.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
         
-        cell.textLabel?.text = restrantNames[indexPath.row]
-        cell.imageView?.image = UIImage(named: restrantNames[indexPath.row])
-   
-
+        cell.nameLabel.text = places[indexPath.row].name
+        cell.locationLabel.text = places[indexPath.row].location
+        cell.typeLabel.text = places[indexPath.row].type
+        cell.imageOfPlace.image = UIImage(named: places[indexPath.row].image)
+        cell.imageOfPlace.layer.cornerRadius = cell.imageOfPlace.frame.size.height / 2
+        cell.imageOfPlace.clipsToBounds = true
+        
 
         return cell
     }
     
+    // MARK: - TabelViewDelegate
 
   
     /*
@@ -49,5 +54,7 @@ class MainTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func cancelButton(_ segue: UIStoryboardSegue) {}
 
 }
